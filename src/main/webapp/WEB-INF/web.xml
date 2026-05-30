@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+         https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>Cardie Memory Game</display-name>
+    <description>A memory card matching game with cute animals</description>
+
+    <!-- Welcome file list -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- Game Servlet -->
+    <servlet>
+        <servlet-name>GameServlet</servlet-name>
+        <servlet-class>com.cardie.servlet.GameServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GameServlet</servlet-name>
+        <url-pattern>/game</url-pattern>
+    </servlet-mapping>
+
+    <!-- Flip Card Servlet -->
+    <servlet>
+        <servlet-name>FlipCardServlet</servlet-name>
+        <servlet-class>com.cardie.servlet.FlipCardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FlipCardServlet</servlet-name>
+        <url-pattern>/flip</url-pattern>
+    </servlet-mapping>
+
+    <!-- Leaderboard Servlet -->
+    <servlet>
+        <servlet-name>LeaderboardServlet</servlet-name>
+        <servlet-class>com.cardie.servlet.LeaderboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LeaderboardServlet</servlet-name>
+        <url-pattern>/leaderboard</url-pattern>
+    </servlet-mapping>
+
+    <!-- Session configuration -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+</web-app>
