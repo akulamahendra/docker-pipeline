@@ -16,17 +16,25 @@ pipeline {
             }
         }
 
-        stage ('Build the application') {
+        stage ('Maven application build') {
             agent { label 'slave-agent' }
             steps {
                 sh 'mvn clean install'
             }
         }
-        
-        stage ('Copy WAR') {
+
+        stage ('Docker Build') {
             agent { label 'slave-agent' }
             steps {
-                sh 'sudo cp -v target/*.war /var/lib/tomcat10/webapps/'
+                sh 'docker build -t cardie:v1 .'
+            }
+        }
+
+        stage ('Docker Run') {
+            agent { label 'slave-agent' }
+            steps {
+                sh 'docker run -d --name cardie-app -p 8080:8080 cardie:v1'
+                sh 'Application deployment successful!'
             }
         }
     }
