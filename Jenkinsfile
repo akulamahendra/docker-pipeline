@@ -29,7 +29,7 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-        
+
         stage('docker image'){
             steps{
                 sh 'docker build -t myapp .'
@@ -38,7 +38,7 @@ pipeline {
 
         stage('docker build container'){
             steps{
-                sh 'docker run -d --name flaskapp -p 3000:80 myapp'
+                sh 'docker run -d --name flaskapp -p 3000:8080 myapp'
             }
         }
     }
