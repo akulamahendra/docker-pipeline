@@ -12,7 +12,25 @@ pipeline {
                 git 'https://github.com/akulamahendra/docker-pipeline.git'
             }
         }
-     stage('docker image'){
+        stage ('Test the application') {           
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage ('Verify the code coverage') {
+            steps {
+                sh 'mvn verify'
+            }
+        }
+
+        stage ('Maven application build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        
+        stage('docker image'){
             steps{
                 sh 'docker build -t myapp .'
             }
