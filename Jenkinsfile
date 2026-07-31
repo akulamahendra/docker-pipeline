@@ -1,41 +1,29 @@
 pipeline {
-    agent none
-
-    stages {
-        stage ('Test the application') {
-            agent { label 'slave-agent' }            
-            steps {
-                sh 'mvn test'
+    agent any
+    
+    environment {
+            AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+            AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+            AWS_REGION = 'ap-south-1'
+    }
+    stages{
+        stage('clone repository'){
+            steps{
+                git 'https://github.com/akulamahendra/docker-pipeline.git'
+            }
+        }
+     stage('docker image'){
+            steps{
+                sh 'docker build -t myapp .'
             }
         }
 
-        stage ('Verify the code coverage') {
-            agent { label 'slave-agent' }
-            steps {
-                sh 'mvn verify'
-            }
-        }
-
-        stage ('Maven application build') {
-            agent { label 'slave-agent' }
-            steps {
-                sh 'mvn clean install'
-            }
-        }
-
-        stage ('Docker Build') {
-            agent { label 'slave-agent' }
-            steps {
-                sh 'docker build -t cardie:v1 .'
-            }
-        }
-
-        stage ('Docker Run') {
-            agent { label 'slave-agent' }
-            steps {
-                sh 'docker run -d --name cardie-app -p 8080:8080 cardie:v1'
-                sh 'Application deployment successful!'
+        stage('docker build container'){
+            steps{
+                sh 'docker run -d --name flaskapp -p 3000:80 myapp'
             }
         }
     }
+
 }
+
